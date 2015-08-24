@@ -1,7 +1,9 @@
 node_modules/
+bower_components/
 
 certs/*
 !certs/server.cnf
 !certs/ca.cnf
 
 *.class
+*.exe

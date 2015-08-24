@@ -1,0 +1,28 @@
+{
+  "name": "Https-Server-Clients",
+  "version": "0.0.1",
+  "description": "Https Server and Clients\r =============",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "multer": "^1.0.3",
+    "request": "^2.61.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/beeven/Https-Server-Clients.git"
+  },
+  "author": "Beeven Yip",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/beeven/Https-Server-Clients/issues"
+  },
+  "homepage": "https://github.com/beeven/Https-Server-Clients"
+}

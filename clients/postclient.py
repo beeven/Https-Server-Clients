@@ -5,8 +5,8 @@ payload = {"Hello":"PostContent"}
 r = requests.post("https://localhost:8080/post",
 	data=json.dumps(payload),
 	headers={"Content-Type":"application/json"},
-	cert=("client.cer","certs/client.key"),
-	verify="certs/ca.cer"
+	cert=("../certs/client.cer","../certs/client.key"),
+	verify="../certs/ca.cer"
 )
 print(r.text)
 
