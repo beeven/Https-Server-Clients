@@ -1,0 +1,11 @@
+@font-face {
+    font-family: andybold;
+    src: url("../fonts/Andy Bold.woff2") format('woff2'),
+         url("../fonts/Andy Bold.woff") format('woff'),
+         url("../fonts/Andy Bold.ttf") format('truetype');
+}
+
+body {
+    font-family: andybold;
+    font-size: 15pt;
+}

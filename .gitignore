@@ -4,6 +4,7 @@ bower_components/
 certs/*
 !certs/server.cnf
 !certs/ca.cnf
+!certs/makecert.py
 
 *.class
 *.exe
