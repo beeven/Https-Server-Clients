@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+# -*- coding: utf8 -*-
+# Author: Beeven Yip
+# Written at 2015-08-26
+
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes

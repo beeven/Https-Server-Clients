@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/validator.min.js"></script>
+    <script type="text/javascript" src="js/knockout-3.3.0.js"></script>
     <script type="text/javascript" src="js/moment.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
 </head>
@@ -38,82 +38,91 @@
                 C. Click Check button<br/>
             </p>
             <div class="well well-lg">
-                <form id="dataform" class="form-horizontal" action="#" method="GET" role="form">
+                <form id="dataform" class="form-horizontal" action="#" method="GET" role="form" data-bind="submit: submitForm">
                     <div class="form-group">
                         <label for="" class="col-sm-2">Protocol</label>
                         <div class="col-sm-6">
-                            <div class="btn-group" data-toggle="buttons">
+                            <div class="btn-group" data-toggle="buttons" data-bind="radio: protocol">
                                 <label class="btn btn-primary active">
-                                    <input type="radio"  name="protocol" checked id="httpprotocol" /> http
+                                    <input type="radio" name="protocolGroup" value="http" /> http
                                 </label>
                                 <label class="btn btn-primary">
-                                <input type="radio"  name="protocol" id="httpsprotocol"/> https
+                                <input type="radio"  name="protocolGroup" value="https" /> https
                                 </label>
                             </div>
                         </div>
+                        <button class="btn btn-default btn-lg col-sm-2" data-bind="click: fillForm">Fill for me</button>
                     </div>
                     <div class="form-group">
                         <label for="addr" class="col-sm-2">Url</label>
-                        <div class="col-sm-6">
-                            <input name="addr" type="text" class="form-control" placeholder="localhost:8088/Receipt" required />
+                        <div class="col-sm-6" data-bind="css: {'has-error': url().length < 1}">
+                            <input name="addr" type="text" class="form-control" placeholder="localhost:8088/Receipt" data-bind="textInput: url" required />
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="messageid" class="col-sm-2">MessageId</label>
                         <div class="col-sm-6">
-                            <input name="messageid" type="text" class="form-control" placeholder="282491" />
+                            <input name="messageid" type="text" class="form-control" placeholder="282491"  data-bind="value: messageid"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="col-sm-2">DateCreated</label>
                         <div class="col-sm-6">
-                            <input id="datecreated" name="datecreated" type="text" class="form-control" placeholder="">
+                            <input id="datecreated" name="datecreated" type="text" class="form-control" placeholder="2015-08-26T15:11:30" data-bind="value: datecreated">
                         </div>
-                        <button id="date_created_now" class="btn btn-default">now</button>
+                        <button id="date_created_now" class="btn btn-default" data-bind="click: setDateCreated">now</button>
                     </div>
                     <div class="form-group">
                         <label for="entryno" class="col-sm-2">EntryNo</label>
                         <div class="col-sm-6">
-                            <input name="entryno" type="text" class="form-control" placeholder="515420151545004662">
+                            <input name="entryno" type="text" class="form-control" placeholder="515420151545004662" data-bind="value: entryno">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="eportno" class="col-sm-2">EportNo</label>
                         <div class="col-sm-6">
-                            <input id="eportno" type="text" class="form-control" placeholder="000000001023111528">
+                            <input id="eportno" type="text" class="form-control" placeholder="000000001023111528" data-bind="value: eportno">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="noticetime" class="col-sm-2">NoticeTime</label>
                         <div class="col-sm-6">
-                            <input id="noticetime" type="text" class="form-control" placeholder="">
+                            <input id="noticetime" type="text" class="form-control" placeholder="2015-08-26T15:09:13" data-bind="value: noticetime">
                         </div>
+                        <button class="btn btn-default" data-bind="click: setNoticeTime">now</button>
                     </div>
                     <div class="form-group">
                         <label for="returncode" class="col-sm-2">ReturnCode</label>
                         <div class="col-sm-6">
-                            <input id="returncode" type="text" class="form-control" placeholder="0">
+                            <input id="returncode" type="text" class="form-control" placeholder="0" data-bind="value: returncode">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="returninfo" class="col-sm-2">ReturnInfo</label>
                         <div class="col-sm-6">
-                            <input id="returninfo" type="text" class="form-control" value="任务编号[T1907843510020150514f4ff60ba0]检验成功">
+                            <input id="returninfo" type="text" class="form-control" placeholder="任务编号[T1907843510020150514f4ff60ba0]检验成功" data-bind="value: returninfo">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="returntype" class="col-sm-2">ReturnType</label>
                         <div class="col-sm-6">
-                            <input id="returntype" type="text" class="form-control" value="TCS">
+                            <input id="returntype" type="text" class="form-control" placeholder="TCS" data-bind="value: returntype">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="taskid" class="col-sm-2">TaskId</label>
                         <div class="col-sm-6">
-                            <input id="taskid" type="text" class="form-control" value="1907843510020150514f4ff60ba0">
+                            <input id="taskid" type="text" class="form-control" placeholder="1907843510020150514f4ff60ba0" data-bind="value: taskid">
                         </div>
                     </div>
-                    <button id="submit" type="submit" class="btn btn-default btn-lg">Submit</button>
+                    <div class="form-group">
+                    <div class="col-sm-3"><button id="submit" type="submit" class="btn btn-success btn-lg" >Check my service!</button>
+                    </div>
+                        <div class="col-sm-8">
+                            <span data-bind="text: msg"></span>
+                        </div>
+                    </div>
+                    
                 </form>
             </div>
         </div>

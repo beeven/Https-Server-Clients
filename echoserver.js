@@ -7,7 +7,7 @@ var express = require("express"),
 
 var options = {
 	key: fs.readFileSync("certs/server.key"),
-	cert: fs.readFileSync("certs/LocalTestServer.cer"),
+	cert: fs.readFileSync("certs/server.cer"),
 	ca: [fs.readFileSync("certs/ca.cer")],
 	rejectUnauthorized: true,
 	requestCert: true,
@@ -33,4 +33,5 @@ app.all("*", function(req,res){
 	console.log(req.file)
 });
 
-https.createServer(options,app).listen(8080);
+https.createServer(options,app).listen(8043);
+app.listen(8088);
