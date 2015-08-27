@@ -51,8 +51,9 @@ ko.bindingHandlers.radio = {
         that.returntype = ko.observable("");
         that.taskid = ko.observable("");
 
-        that.status = ko.observable("");
+        that.returnstatus = ko.observable(-1);
         that.msg = ko.observable("");
+        that.response = ko.observable("");
 
         that.fillForm = function(){
             that.messageid(("00000" + Math.floor(Math.random()*100000)).substr(-5,5));
@@ -91,10 +92,12 @@ ko.bindingHandlers.radio = {
                 return
             }
             that.msg("Sending request...");
-            //that.status(0);
+            that.returnstatus(-1);
+            that.response("");
             $.post("/TestMessage",data,function(res){
-                //that.status(res.status);
-                that.msg(res.msg + "\tServer response: " + res.response);
+                that.returnstatus(res.status);
+                that.msg("Test result: " + res.msg);
+                that.response("Server response: " + JSON.stringify(res.response));
                 console.log(res);
             })
         }
