@@ -18,7 +18,7 @@ var options = {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(__dirname + "/public"));
+app.use("/SingleWindowTest",express.static(__dirname + "/public"));
 
 var sendRequest = function(info){
 	var deferred = Q.defer()
@@ -54,7 +54,7 @@ var sendRequest = function(info){
 	return deferred.promise;
 }
 
-app.post("/TestMessage",function(req,res){
+app.post("/SingleWindowTest/TestMessage",function(req,res){
 	var info = req.body;
 	if(typeof(info.url) === 'undefined' || info.url == null) {
 		res.sendStatus(301);
@@ -71,10 +71,11 @@ app.post("/TestMessage",function(req,res){
 	.done()
 });
 
-app.get("/",function(req, res){
+app.get("/SingleWindowTest/",function(req, res){
 	res.send("World");
 });
 
 
-https.createServer(options, app).listen(8443);
-http.createServer(app).listen(8080);
+//https.createServer(options, app).listen(8443);
+//http.createServer(app).listen(8080);
+http.createServer(app).listen(process.env.PORT)
