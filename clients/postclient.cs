@@ -27,7 +27,7 @@ namespace PostClient
                     Console.WriteLine(certificate.Subject);
                     return true;
                 };
-            req.ContentType = "application/json";
+            req.ContentType = "application/json; charset=utf-8";
             var reqstream = req.GetRequestStream();
             StreamWriter sw = new StreamWriter(reqstream);
             sw.Write("{\"Hello\":\"World!\"}");
