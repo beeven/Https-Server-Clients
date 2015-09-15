@@ -106,7 +106,7 @@ def make_server_csr():
         x509.NameAttribute(NameOID.LOCALITY_NAME, u'Guangzhou'),
         x509.NameAttribute(NameOID.ORGANIZATION_NAME, u'Guangzhou Customs'),
         x509.NameAttribute(NameOID.ORGANIZATIONAL_UNIT_NAME, u'IT'),
-        x509.NameAttribute(NameOID.COMMON_NAME,u'Single Window Server'),
+        x509.NameAttribute(NameOID.COMMON_NAME,u'Bridge'),
     ]))
     builder = builder.add_extension(
         x509.BasicConstraints(ca=False, path_length=None), critical=True
@@ -137,10 +137,15 @@ def make_server_csr():
     builder = builder.add_extension(
         x509.SubjectAlternativeName([
             x509.DNSName("localhost"),
-            #x509.DNSName("swdemo.gzeport.net"),
+            x509.DNSName("beevenubuntu.cloudapp.net"),
+            x509.DNSName("beevenhk.cloudapp.net"),
+            x509.DNSName("beevensuse.cloudapp.net"),
+            x509.DNSName("home.beeven.me"),
             x509.IPAddress(ipaddress.IPv4Address("127.0.0.1")),
-            x509.IPAddress(ipaddress.IPv4Address("172.7.1.87")),
-            x509.IPAddress(ipaddress.IPv4Address("183.63.251.70"))
+            x509.IPAddress(ipaddress.IPv4Address("168.63.207.153")),
+            x509.IPAddress(ipaddress.IPv4Address("191.239.107.127")),
+            x509.IPAddress(ipaddress.IPv4Address("192.168.1.5")),
+            x509.IPAddress(ipaddress.IPv4Address("23.99.122.201"))
         ]),
         critical = False
     )
@@ -176,7 +181,7 @@ def make_client_csr():
         x509.NameAttribute(NameOID.LOCALITY_NAME, u'Guangzhou'),
         x509.NameAttribute(NameOID.ORGANIZATION_NAME, u'Guangzhou Eport'),
         x509.NameAttribute(NameOID.ORGANIZATIONAL_UNIT_NAME, u'IT'),
-        x509.NameAttribute(NameOID.COMMON_NAME,u'SGYClient'),
+        x509.NameAttribute(NameOID.COMMON_NAME,u'Bridge Client'),
     ]))
     builder = builder.add_extension(
         x509.BasicConstraints(ca=False, path_length=None), critical=True
@@ -328,6 +333,8 @@ if __name__=="__main__":
     cert_info_parser.add_argument("-CN", action='store', default='SGY')
     cert_info_parser.add_argument("-DNS", action='store', nargs="+")
     cert_info_parser.add_argument("-IP", action='store', nargs="+")
+
+    cert_info_parser.add_argument("-out", type=argparse.FileType("wb"))
     
     ca_parser = sub_parsers.add_parser('ca',description="Make self-signed CA certificate.",parents=[cert_info_parser])
     ca_parser.add_argument("-new",action='store_true', dest="new")
@@ -343,7 +350,6 @@ if __name__=="__main__":
     x509_parser.add_argument('-keyout', type=argparse.FileType('wb'))
 
     args = parser.parse_args()
-    print(args)
 
     if args.command == 'ca':
         if args.new == True:
@@ -354,7 +360,10 @@ if __name__=="__main__":
         if args.keyout is not None:
             args.keyout.write(cakey)
             args.keyout.close()
-        print(cacert)
+        if args.out is not None:
+            args.out.write(cacert)
+        else:
+            print(cacert)
     elif args.command == 'x509':
         if args.ca is not None:
             cacert = args.ca.read()
@@ -369,10 +378,13 @@ if __name__=="__main__":
         else:
             svrkey, req = make_server_csr()
             if args.keyout is not None:
-                args.keyout.write("svrkey")
+                args.keyout.write(svrkey)
                 args.keyout.close()
         svrcer = sign_csr_with_ca(cakey,cacert,req)
-        print(svrcer)
+        if args.out is not None:
+            args.out.write(svrcer)
+        else:
+            print(svrcer)
     elif args.command == 'req':
         pass
 
